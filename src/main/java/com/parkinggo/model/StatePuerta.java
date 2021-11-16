@@ -1,4 +1,4 @@
-package com.evalbdp.model;
+package com.parkinggo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

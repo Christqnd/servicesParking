@@ -1,4 +1,4 @@
-package com.evalbdp.rest;
+package com.parkinggo.rest;
 
 import java.util.List;
 
@@ -12,35 +12,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.evalbdp.model.Bien;
-import com.evalbdp.repository.IBienRepository;
-
+import com.parkinggo.model.Usuario;
+import com.parkinggo.repository.IUsuarioRepository;
 
 @RestController
-@RequestMapping("/bienes")
-public class RestBienController {
+@RequestMapping("/usuarios")
+public class RestUsuarioController {
 
 	@Autowired
-	private IBienRepository repo;
+	private IUsuarioRepository repo;
 	
 	@GetMapping
-	public List<Bien> listarBienes(){
+	public List<Usuario> listarUsuario(){
 		return repo.findAll();
 	}
 	
 	@PostMapping
-	public void insertarBienes(@RequestBody Bien bien){
-		repo.save(bien);
+	public void insertarUsuario(@RequestBody Usuario usuario){
+		repo.save(usuario);
 	}
 	
 	@PutMapping
-	public void actualizarBienes(@RequestBody Bien bien){
-		 repo.save(bien);
+	public void actualizarUsuario(@RequestBody Usuario usuario){
+		 repo.save(usuario);
 	}
 	
 	@DeleteMapping(value="/{id}")
-	public void eliminarBienes(@PathVariable("id") Integer id){
+	public void eliminarUsuario(@PathVariable("id") Integer id){
 		 repo.deleteById(id);
 	}
-	
 }

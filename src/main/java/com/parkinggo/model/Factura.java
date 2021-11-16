@@ -1,11 +1,13 @@
-package com.evalbdp.model;
+package com.parkinggo.model;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,16 +18,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Factura")
+@Table(name = "factura")
 public class Factura {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id_factura")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idFactura;
 	@Column(name = "tiempo", length = 100)
-	@Temporal(TemporalType.DATE)
-	private Date tiempo;
+	private String tiempo;
 	@Column(name = "cedula", length = 100)
 	private String cedula;
 	@Column(name = "total")
@@ -34,36 +35,39 @@ public class Factura {
 	private double subtotal;
 	@Column(name = "iva")
 	private double iva;
-	@OneToOne(mappedBy = "Factura", cascade = CascadeType.ALL)
-	private StateFactura estadoFactura;
-	@OneToMany(mappedBy = "Factura", cascade = CascadeType.ALL)
-	private LinkedList<DetalleFactura> listaDetalleFacturas = new LinkedList<>();
 
-	public Factura(Date tiempo, String cedula, double total, double subtotal, double iva, StateFactura estadoFactura,
-			LinkedList<DetalleFactura> listaDetalleFacturas) {
+//	@OneToOne(mappedBy = "factura", cascade = CascadeType.ALL)
+//	private StateFactura estadoFactura;
+	
+	@OneToMany(mappedBy = "factura", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<DetalleFactura> listaDetalleFacturas;
+
+	public Factura(String tiempo, String cedula, double total, double subtotal, double iva
+			// StateFactura estadoFactura,
+			) {
 		super();
 		this.tiempo = tiempo;
 		this.cedula = cedula;
 		this.total = total;
 		this.subtotal = subtotal;
 		this.iva = iva;
-		this.estadoFactura = estadoFactura;
-		this.listaDetalleFacturas = listaDetalleFacturas;
+//		this.estadoFactura = estadoFactura;
+		this.listaDetalleFacturas = new LinkedList<DetalleFactura>();
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdFactura() {
+		return idFactura;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdFactura(Long idFactura) {
+		this.idFactura = idFactura;
 	}
 
-	public Date getTiempo() {
+	public String getTiempo() {
 		return tiempo;
 	}
 
-	public void setTiempo(Date tiempo) {
+	public void setTiempo(String tiempo) {
 		this.tiempo = tiempo;
 	}
 
@@ -99,19 +103,19 @@ public class Factura {
 		this.iva = iva;
 	}
 
-	public StateFactura getEstadoFactura() {
-		return estadoFactura;
-	}
+//	public StateFactura getEstadoFactura() {
+//		return estadoFactura;
+//	}
+//
+//	public void setEstadoFactura(StateFactura estadoFactura) {
+//		this.estadoFactura = estadoFactura;
+//	}
 
-	public void setEstadoFactura(StateFactura estadoFactura) {
-		this.estadoFactura = estadoFactura;
-	}
-
-	public LinkedList<DetalleFactura> getListaDetalleFacturas() {
+	public List<DetalleFactura> getListaDetalleFacturas() {
 		return listaDetalleFacturas;
 	}
 
-	public void setListaDetalleFacturas(LinkedList<DetalleFactura> listaDetalleFacturas) {
+	public void setListaDetalleFacturas(List<DetalleFactura> listaDetalleFacturas) {
 		this.listaDetalleFacturas = listaDetalleFacturas;
 	}
 	

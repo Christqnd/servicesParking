@@ -1,4 +1,4 @@
-package com.evalbdp.rest;
+package com.parkinggo.rest;
 
 import java.util.List;
 
@@ -12,34 +12,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.evalbdp.model.Categoria;
-import com.evalbdp.repository.ICategoriaRepository;
+import com.parkinggo.model.Factura;
+import com.parkinggo.repository.IFacturaRepository;
 
 @RestController
-@RequestMapping("/categorias")
-public class RestCategoriaController {
+@RequestMapping("/factura")
+public class RestFacturaController {
 
-	
 	@Autowired
-	private ICategoriaRepository repo;
-	
+	private IFacturaRepository repo;
+
 	@GetMapping
-	public List<Categoria> listarCategorias(){
+	public List<Factura> listarFactura() {
 		return repo.findAll();
 	}
-	
+
 	@PostMapping
-	public void insertarCategorias(@RequestBody Categoria categoria){
-		repo.save(categoria);
+	public void insertarFactura(@RequestBody Factura factura) {
+		repo.save(factura);
 	}
-	
+
 	@PutMapping
-	public void actualizarCategorias(@RequestBody Categoria categoria){
-		 repo.save(categoria);
+	public void actualizarFactura(@RequestBody Factura factura) {
+		repo.save(factura);
 	}
-	
-	@DeleteMapping(value="/{id}")
-	public void eliminarCategorias(@PathVariable("id") Integer id){
-		 repo.deleteById(id);
+
+	@DeleteMapping(value = "/{id}")
+	public void eliminarFactura(@PathVariable("id") Integer id) {
+		repo.deleteById(id);
 	}
 }

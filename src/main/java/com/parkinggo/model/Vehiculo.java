@@ -1,19 +1,22 @@
 package com.parkinggo.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "vehiculo")
@@ -23,41 +26,45 @@ public class Vehiculo {
 	@Column(name = "id_vehiculo")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVehiculo;
+
 	@Column(name = "placa", length = 20)
 	private String placa;
+
 	@Column(name = "marca", length = 100)
 	private String marca;
+
 	@Column(name = "modelo", length = 100)
 	private String modelo;
 
+	@Column(name = "observacion", length = 500)
+	private String observacion;
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuario usuario;
-//    @ManyToMany(mappedBy = "Vehiculo")
-//    private List<Bien> bienes;
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(foreignKey = @ForeignKey(name = "usuario_id"),name = "usuario_id", nullable = false)
+//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@JsonIgnore private Usuario usuario;
 
-    @OneToOne(mappedBy = "vehiculo")
-    private DetalleFactura detallefactura;
-    
-    
-	public DetalleFactura getDetallefactura() {
-		return detallefactura;
-	}
+//	@OneToOne(mappedBy = "vehiculo")
+//	@JsonIgnore private DetalleFactura detallefactura;
 
-	public void setDetallefactura(DetalleFactura detallefactura) {
-		this.detallefactura = detallefactura;
-	}
-
-	public Vehiculo(String placa, String marca, String modelo) {
+	public Vehiculo(String placa, String marca, String modelo, String observacion) {
 		super();
 		this.placa = placa;
 		this.marca = marca;
 		this.modelo = modelo;
-//		this.usuario = usuario;
+		this.observacion = observacion;
+		this.usuario = new Usuario();
+//		this.detallefactura = new DetalleFactura();
 	}
 
 	public Vehiculo() {
 		super();
+		this.placa = "";
+		this.marca = "";
+		this.modelo = "";
+		this.observacion = "";
+		this.usuario = new Usuario();
 	}
 
 	public Long getIdUsuario() {
@@ -99,5 +106,25 @@ public class Vehiculo {
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
+
+	public Long getIdVehiculo() {
+		return idVehiculo;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+//	public DetalleFactura getDetallefactura() {
+//		return detallefactura;
+//	}
+//
+//	public void setDetallefactura(DetalleFactura detallefactura) {
+//		this.detallefactura = detallefactura;
+//	}
 
 }

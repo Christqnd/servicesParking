@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "detalle_factura")
 public class DetalleFactura {
@@ -40,17 +42,23 @@ public class DetalleFactura {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "factura_id", nullable = false, updatable = false)
-	private Factura factura;
+	@JsonIgnore	private Factura factura;
 
-	@OneToOne // (mappedBy = "vehiculo_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne 
 	@JoinColumn(name = "vehiculo_id")
-	private Vehiculo vehiculo;
+	 private Vehiculo vehiculo;
 
 	public DetalleFactura(Date fechaHoraEntrada, Date fechaHoraSalida, String tiempo) {
 		super();
 		this.fechaHoraEntrada = fechaHoraEntrada;
 		this.fechaHoraSalida = fechaHoraSalida;
 		this.tiempo = tiempo;
+		this.factura = new Factura();
+		this.vehiculo = new Vehiculo();
+	}
+
+	public DetalleFactura() {
+		super();
 	}
 
 	public Long getIdDetalleFactura() {

@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "factura")
 public class Factura {
@@ -38,13 +40,11 @@ public class Factura {
 
 //	@OneToOne(mappedBy = "factura", cascade = CascadeType.ALL)
 //	private StateFactura estadoFactura;
-	
+
 	@OneToMany(mappedBy = "factura", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DetalleFactura> listaDetalleFacturas;
 
-	public Factura(String tiempo, String cedula, double total, double subtotal, double iva
-			// StateFactura estadoFactura,
-			) {
+	public Factura(String tiempo, String cedula, double total, double subtotal, double iva) {
 		super();
 		this.tiempo = tiempo;
 		this.cedula = cedula;
@@ -54,6 +54,12 @@ public class Factura {
 //		this.estadoFactura = estadoFactura;
 		this.listaDetalleFacturas = new LinkedList<DetalleFactura>();
 	}
+	
+
+	public Factura() {
+		super();
+	}
+
 
 	public Long getIdFactura() {
 		return idFactura;
@@ -118,5 +124,5 @@ public class Factura {
 	public void setListaDetalleFacturas(List<DetalleFactura> listaDetalleFacturas) {
 		this.listaDetalleFacturas = listaDetalleFacturas;
 	}
-	
+
 }

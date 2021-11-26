@@ -12,9 +12,9 @@ import javax.persistence.Table;
 public class StatePuerta {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id_state_puerta")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idStatePuerta;
 
 	@Column(name = "tipo", length = 100)
 	private String tipo;
@@ -32,4 +32,13 @@ public class StatePuerta {
 		this.tipo = tipo;
 	}
 
+	public Long getIdStatePuerta() {
+		return idStatePuerta;
+	}
+
+	public void setIdStatePuerta(Long idStatePuerta) {
+		this.idStatePuerta = idStatePuerta;
+	}
+
+	
 }

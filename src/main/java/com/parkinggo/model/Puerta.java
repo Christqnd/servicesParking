@@ -3,6 +3,7 @@ package com.parkinggo.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,47 +12,63 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Puerta")
 public class Puerta {
 
-    @Id
-	@Column(name="id")
+	@Id
+	@Column(name = "id_puerta")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idPuerta;
 
 	@Column(name = "asignado")
-	private boolean asignado=false;
-	@Column(name = "numero", length = 100)
-    private int numero;
-	@Column(name = "codigo", length = 100)
-    private String Codigo;
+	private boolean asignado = false;
 
-//	@OneToOne(mappedBy = "Puerta", cascade = CascadeType.ALL)
+	@Column(name = "numero", length = 100)
+	private int numero;
+
+	@Column(name = "codigo", length = 100)
+	private String codigo;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "parqueadero_id", nullable = true, updatable = false)
+	@JsonIgnore
+	private Parqueadero parqueadero;
+
+	// @OneToOne(mappedBy = "Puerta", cascade = CascadeType.ALL)
 //    private Portero portero;
 //
 //	@OneToOne(mappedBy = "Puerta", cascade = CascadeType.ALL)
-//	private StatePuerta tipoDePuerta;//tipo de puerta(Entrada,Salida,Entrada y Salida)
+//	private StatePuerta tipoDePuerta;//tipo de puerta(Entrada,Salida,Entrada y Salida)	
 
-//    @ManyToOne
-//    @JoinColumn(name = "FK_INVOICE", nullable = false, updatable = false)
-//    private Parqueadero parqueadero;
-//	
-    
-//	public Parqueadero getParqueadero() {
-//		return parqueadero;
-//	}
-//
-//	public void setParqueadero(Parqueadero parqueadero) {
-//		this.parqueadero = parqueadero;
-//	}
-
-	public Long getId() {
-		return id;
+	public Puerta(boolean asignado, int numero, String codigo) {
+		super();
+		this.asignado = asignado;
+		this.numero = numero;
+		this.codigo = codigo;
+		this.parqueadero = new Parqueadero();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Puerta() {
+		super();
+	}
+
+	public Parqueadero getParqueadero() {
+		return parqueadero;
+	}
+
+	public void setParqueadero(Parqueadero parqueadero) {
+		this.parqueadero = parqueadero;
+	}
+
+	public Long getIdPuerta() {
+		return idPuerta;
+	}
+
+	public void setIdPuerta(Long idPuerta) {
+		this.idPuerta = idPuerta;
 	}
 
 	public boolean isAsignado() {
@@ -71,11 +88,11 @@ public class Puerta {
 	}
 
 	public String getCodigo() {
-		return Codigo;
+		return codigo;
 	}
 
 	public void setCodigo(String codigo) {
-		Codigo = codigo;
+		this.codigo = codigo;
 	}
 //
 //	public StatePuerta getTipoDePuerta() {
@@ -85,6 +102,5 @@ public class Puerta {
 //	public void setTipoDePuerta(StatePuerta tipoDePuerta) {
 //		this.tipoDePuerta = tipoDePuerta;
 //	}
-	
 
 }

@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.parkinggo.EvalbdpApplication;
-import com.parkinggo.model.Categoria;
 import com.parkinggo.model.DetalleFactura;
 import com.parkinggo.model.Factura;
+import com.parkinggo.model.Parqueadero;
+import com.parkinggo.model.Puerta;
 import com.parkinggo.model.Usuario;
 import com.parkinggo.model.Vehiculo;
 import com.parkinggo.repository.IDetalleFacturaRepository;
 import com.parkinggo.repository.IFacturaRepository;
+import com.parkinggo.repository.IParqueaderoRepository;
+import com.parkinggo.repository.IPuertaRepository;
 import com.parkinggo.repository.IUsuarioRepository;
 import com.parkinggo.repository.IVehiculoRepository;
 
@@ -43,6 +46,13 @@ public class BDPstockController {
 	@Autowired
 	private IDetalleFacturaRepository repodf;
 
+	@Autowired
+	private IParqueaderoRepository repopq;
+	
+	@Autowired
+	private IPuertaRepository repopt;
+
+	
 	@GetMapping("/start")
 	public String Inicio() {
 		
@@ -77,10 +87,15 @@ public class BDPstockController {
 
 			Factura factura = new Factura("25:25:12", "0102365458", 12.54, 12.52, 0.00);
 
+			List<Puerta> puertas = new LinkedList<Puerta>();
+			Puerta puerta1= new Puerta(false, 1, "X2S3V2316");
+			Puerta puerta2= new Puerta(false, 2, "Y2S5A2318");
+			Puerta puerta3= new Puerta(false, 3, "Z2S7F2319");
+			Parqueadero parqueadero= new Parqueadero("P1", 1, 15, 6);
 
 
 			List<Vehiculo> vehiculos = new LinkedList<Vehiculo>();
-			Vehiculo vehiculo = new Vehiculo("PXR-0248", "VW", "auto 2002");
+			Vehiculo vehiculo = new Vehiculo("PXR-0248", "VW", "auto 2002","ninguna");
 			Usuario usuario = new Usuario("Christian Manuel", "Quinde Tenemaza", "0105783187", "0982651393");
 			vehiculo.setUsuario(usuario);
 			vehiculos.add(vehiculo);
@@ -89,27 +104,43 @@ public class BDPstockController {
 			repous.saveAndFlush(usuario);
 
 			detalle1.setFactura(factura);
-			vehiculo.setDetallefactura(detalle1);
+//			vehiculo.setDetallefactura(detalle1);
 			detalle1.setVehiculo(vehiculo);
 			detallesfactura.add(detalle1);
 			
 			detalle2.setFactura(factura);
-			vehiculo.setDetallefactura(detalle2);
+//			vehiculo.setDetallefactura(detalle2);
 			detalle2.setVehiculo(vehiculo);
 			detallesfactura.add(detalle2);
 			
 			detalle3.setFactura(factura);
-			vehiculo.setDetallefactura(detalle3);
+//			vehiculo.setDetallefactura(detalle3);
 			detalle3.setVehiculo(vehiculo);
 			detallesfactura.add(detalle3);
 			
 			factura.setListaDetalleFacturas(detallesfactura);
 
-
 			repofc.saveAndFlush(factura);
 
+			
+			
+			puerta1.setParqueadero(parqueadero);
+			puerta2.setParqueadero(parqueadero);
+			puerta3.setParqueadero(parqueadero);
+//			repopt.saveAndFlush(puerta1);
+//			repopt.saveAndFlush(puerta2);
+//			repopt.saveAndFlush(puerta3);
+			puertas.add(puerta1);
+			puertas.add(puerta2);
+			puertas.add(puerta3);
+						
+			parqueadero.setPuertas(puertas);
+			
+			repopq.saveAndFlush(parqueadero);
+			
+
 		} catch (Exception e) {
-			LoggerFactory.getLogger(EvalbdpApplication.class).error("############# Exception catch : ");
+			LoggerFactory.getLogger(EvalbdpApplication.class).error("############# Exception catch : "+ e.getMessage());
 			
 		}
 		return "start";

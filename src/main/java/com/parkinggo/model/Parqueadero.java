@@ -1,11 +1,13 @@
 package com.parkinggo.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,23 +18,41 @@ import javax.persistence.Table;
 @Table(name = "Parqueadero")
 public class Parqueadero {
 
-    @Id
-	@Column(name="id")
+	@Id
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "codigo", length = 100)
 	private String codigo;
-    
+
 	@Column(name = "numero", length = 100)
-	private int numero;    
+	private int numero;
+
 	@Column(name = "capacidad", length = 100)
-    private int capacidad;
+	private int capacidad;
+	
 	@Column(name = "ocupados", length = 100)
-    private int ocupados;
+	private int ocupados;
+
+    @OneToMany(mappedBy = "parqueadero",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Puerta> puertas;
+
     
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Parqueadero")
-//    private List<Puerta> puertas = new ArrayList<>();
+	public Parqueadero(String codigo, int numero, int capacidad, int ocupados) {
+		super();
+		this.codigo = codigo;
+		this.numero = numero;
+		this.capacidad = capacidad;
+		this.ocupados = ocupados;
+		this.puertas = new LinkedList<Puerta>();
+	}
+
+	
+	public Parqueadero() {
+		super();
+	}
+
 
 	public Long getId() {
 		return id;
@@ -74,13 +94,12 @@ public class Parqueadero {
 		this.ocupados = ocupados;
 	}
 
-//	public List<Puerta> getPuertas() {
-//		return puertas;
-//	}
-//
-//	public void setPuertas(List<Puerta> puertas) {
-//		this.puertas = puertas;
-//	}
+	public List<Puerta> getPuertas() {
+		return puertas;
+	}
 
-    
+	public void setPuertas(List<Puerta> puertas) {
+		this.puertas = puertas;
+	}
+
 }

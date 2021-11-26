@@ -16,7 +16,7 @@ import com.parkinggo.model.DetalleFactura;
 import com.parkinggo.repository.IDetalleFacturaRepository;
 
 @RestController
-@RequestMapping("/detallefactura")
+@RequestMapping("/detallesfacturas")
 public class RestDetalleFacturaController {
 	@Autowired
 	private IDetalleFacturaRepository repo;

@@ -16,9 +16,9 @@ import javax.persistence.Table;
 public class StateFactura {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id_state_factura")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idStateFactura;
 
 	@Column(name = "estadoFactura", length = 100)
 	public String estadoFactura;
@@ -36,4 +36,13 @@ public class StateFactura {
 		this.estadoFactura = estadoFactura;
 	}
 
+	public Long getIdStateFactura() {
+		return idStateFactura;
+	}
+
+	public void setIdStateFactura(Long idStateFactura) {
+		this.idStateFactura = idStateFactura;
+	}
+
+	
 }

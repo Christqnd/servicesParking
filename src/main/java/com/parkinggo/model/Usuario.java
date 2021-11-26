@@ -10,10 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
@@ -36,26 +36,32 @@ public class Usuario {
 	@Column(name = "telefono", length = 100)
 	private String telefono;
 
-    @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Vehiculo> vehiculos;
 //    private Tarjeta tarjeta;
 //    private Tarifa tarifa;
 
+	public Usuario(String nombre, String apellido, String cedula, String telefono) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.cedula = cedula;
+		this.telefono = telefono;
+		this.vehiculos = new LinkedList<Vehiculo>();
+	}
 
+	public Usuario() {
+		super();
+		this.nombre = "";
+		this.apellido = "";
+		this.cedula = "";
+		this.telefono = "";
+		this.vehiculos = new LinkedList<Vehiculo>();
+	}
 
-    
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
-
-	public Usuario(String nombre, String apellido, String cedula, String telefono) {
-	super();
-	this.nombre = nombre;
-	this.apellido = apellido;
-	this.cedula = cedula;
-	this.telefono = telefono;
-	this.vehiculos = new LinkedList<Vehiculo>();
-}
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
@@ -93,7 +99,6 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	
 	public List<Vehiculo> getVehiculos() {
 		return vehiculos;
 	}
@@ -103,7 +108,7 @@ public class Usuario {
 	}
 
 	public void addVehiculo(Vehiculo vehiculo) {
-		if (this.vehiculos==null) {
+		if (this.vehiculos == null) {
 			this.vehiculos = new LinkedList<Vehiculo>();
 		}
 		this.vehiculos.add(vehiculo);

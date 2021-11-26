@@ -12,33 +12,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parkinggo.model.Factura;
-import com.parkinggo.repository.IFacturaRepository;
+
+import com.parkinggo.model.Parqueadero;
+import com.parkinggo.repository.IParqueaderoRepository;
+
 
 @RestController
-@RequestMapping("/facturas")
-public class RestFacturaController {
+@RequestMapping("/parqueaderos")
+public class RestParqueaderoController {
 
 	@Autowired
-	private IFacturaRepository repo;
+	private IParqueaderoRepository repo;
 
 	@GetMapping
-	public List<Factura> listarFactura() {
+	public List<Parqueadero> listarParqueadero() {
 		return repo.findAll();
 	}
 
 	@PostMapping
-	public void insertarFactura(@RequestBody Factura factura) {
-		repo.save(factura);
+	public void insertarParqueadero(@RequestBody Parqueadero parqueadero) {
+		repo.save(parqueadero);
 	}
 
 	@PutMapping
-	public void actualizarFactura(@RequestBody Factura factura) {
-		repo.save(factura);
+	public void actualizarParqueadero(@RequestBody Parqueadero parqueadero) {
+		repo.save(parqueadero);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void eliminarFactura(@PathVariable("id") Integer id) {
+	public void eliminarParqueadero(@PathVariable("id") Integer id) {
 		repo.deleteById(id);
 	}
 }

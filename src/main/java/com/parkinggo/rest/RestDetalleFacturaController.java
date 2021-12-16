@@ -37,7 +37,7 @@ public class RestDetalleFacturaController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void eliminarDetalleFactura(@PathVariable("id") Integer id) {
+	public void eliminarDetalleFactura(@PathVariable("id") Long id) {
 		repo.deleteById(id);
 	}
 

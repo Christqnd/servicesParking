@@ -29,9 +29,14 @@ public class Puerta {
 	@Column(name = "numero", length = 100)
 	private int numero;
 
-	@Column(name = "codigo", length = 100)
-	private String codigo;
+	
+	@Column(name = "descripcion", length = 500)
+	private String descripcion;
 
+	@Column(name = "tipo", length = 100)
+	private String tipo; /* Entrada, Salida, Mixta*/
+
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "parqueadero_id", nullable = true, updatable = false)
 	@JsonIgnore
@@ -43,11 +48,12 @@ public class Puerta {
 //	@OneToOne(mappedBy = "Puerta", cascade = CascadeType.ALL)
 //	private StatePuerta tipoDePuerta;//tipo de puerta(Entrada,Salida,Entrada y Salida)	
 
-	public Puerta(boolean asignado, int numero, String codigo) {
+	public Puerta(boolean asignado, int numero, String descripcion, String tipo) {
 		super();
 		this.asignado = asignado;
 		this.numero = numero;
-		this.codigo = codigo;
+		this.descripcion = descripcion;
+		this.tipo=tipo;
 		this.parqueadero = new Parqueadero();
 	}
 
@@ -87,20 +93,24 @@ public class Puerta {
 		this.numero = numero;
 	}
 
-	public String getCodigo() {
-		return codigo;
+
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
-//
-//	public StatePuerta getTipoDePuerta() {
-//		return tipoDePuerta;
-//	}
-//
-//	public void setTipoDePuerta(StatePuerta tipoDePuerta) {
-//		this.tipoDePuerta = tipoDePuerta;
-//	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	
+
 
 }

@@ -1,5 +1,7 @@
 package com.parkinggo.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,12 +22,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "vehiculo")
-public class Vehiculo {
+public class Vehiculo implements Serializable{
 
 	@Id
-	@Column(name = "id_vehiculo")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idVehiculo;
+	private Long id;
 
 	@Column(name = "placa", length = 20)
 	private String placa;
@@ -39,9 +41,12 @@ public class Vehiculo {
 	@Column(name = "observacion", length = 500)
 	private String observacion;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@Column(name = "estado", length = 1)
+	private String estado;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(foreignKey = @ForeignKey(name = "usuario_id"),name = "usuario_id", nullable = false)
+	@JoinColumn(foreignKey = @ForeignKey(name = "usuario_id"),name = "usuario_id", nullable = true)
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JsonIgnore private Usuario usuario;
 
@@ -54,6 +59,7 @@ public class Vehiculo {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.observacion = observacion;
+		this.estado="A";
 		this.usuario = new Usuario();
 //		this.detallefactura = new DetalleFactura();
 	}
@@ -64,23 +70,34 @@ public class Vehiculo {
 		this.marca = "";
 		this.modelo = "";
 		this.observacion = "";
+		this.estado="A";
 		this.usuario = new Usuario();
 	}
 
-	public Long getIdUsuario() {
-		return idVehiculo;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setIdVehiculo(Long idVehiculo) {
-		this.idVehiculo = idVehiculo;
+	public Long getId() {
+		return id;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
+	
+	
+	public void setIdUsuario(Long id) {
+		 usuario.setId(id);
+	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public Long getIdUsuario() {
+		return usuario.getId();
 	}
 
 	public String getPlaca() {
@@ -107,9 +124,6 @@ public class Vehiculo {
 		this.modelo = modelo;
 	}
 
-	public Long getIdVehiculo() {
-		return idVehiculo;
-	}
 
 	public String getObservacion() {
 		return observacion;
@@ -119,6 +133,15 @@ public class Vehiculo {
 		this.observacion = observacion;
 	}
 
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	
 //	public DetalleFactura getDetallefactura() {
 //		return detallefactura;
 //	}

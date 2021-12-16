@@ -1,5 +1,6 @@
 package com.parkinggo.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,18 +18,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable{
 
 	@Id
-	@Column(name = "id_usuario")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idUsuario;
+	private Long id;
 
-	@Column(name = "nombre", length = 100)
-	private String nombre;
-
-	@Column(name = "apellido", length = 100)
-	private String apellido;
+	@Column(name = "primer_nombre", length = 100)
+	private String primerNombre;
+	
+	@Column(name = "segundo_nombre", length = 100)
+	private String segundoNombre;
+	
+	@Column(name = "primer_apellido", length = 100)
+	private String primerApellido;
+	
+	@Column(name = "segundo_apellido", length = 100)
+	private String segundoApellido;
 
 	@Column(name = "cedula", length = 100)
 	private String cedula;
@@ -36,51 +43,77 @@ public class Usuario {
 	@Column(name = "telefono", length = 100)
 	private String telefono;
 
+	@Column(name = "estado", length = 1)
+	private String estado;
+
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Vehiculo> vehiculos;
 //    private Tarjeta tarjeta;
 //    private Tarifa tarifa;
 
-	public Usuario(String nombre, String apellido, String cedula, String telefono) {
+	public Usuario(String primerNombre,String segundoNombre, String primerApellido,String segundoApellido, String cedula, String telefono) {
 		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
+		this.primerNombre = primerNombre;
+		this.segundoNombre = segundoNombre;
+		this.primerApellido = primerApellido;
+		this.segundoApellido = segundoApellido;
 		this.cedula = cedula;
 		this.telefono = telefono;
+		this.estado="A";
 		this.vehiculos = new LinkedList<Vehiculo>();
 	}
 
 	public Usuario() {
 		super();
-		this.nombre = "";
-		this.apellido = "";
+		this.primerNombre = "";
+		this.segundoNombre="";
+		this.segundoApellido="";
+		this.primerApellido = "";
 		this.cedula = "";
 		this.telefono = "";
+		this.estado="A";
 		this.vehiculos = new LinkedList<Vehiculo>();
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+
+	public String getPrimerNombre() {
+		return primerNombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setPrimerNombre(String primerNombre) {
+		this.primerNombre = primerNombre;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public String getSegundoNombre() {
+		return segundoNombre;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setSegundoNombre(String segundoNombre) {
+		this.segundoNombre = segundoNombre;
+	}
+
+	public String getPrimerApellido() {
+		return primerApellido;
+	}
+
+	public void setPrimerApellido(String primerApellido) {
+		this.primerApellido = primerApellido;
+	}
+
+	public String getSegundoApellido() {
+		return segundoApellido;
+	}
+
+	public void setSegundoApellido(String segundoApellido) {
+		this.segundoApellido = segundoApellido;
 	}
 
 	public String getCedula() {
@@ -104,6 +137,9 @@ public class Usuario {
 	}
 
 	public void setVehiculos(List<Vehiculo> vehiculos) {
+		for(Vehiculo v : vehiculos) {
+            v.setUsuario(this);
+        }
 		this.vehiculos = vehiculos;
 	}
 
@@ -111,9 +147,24 @@ public class Usuario {
 		if (this.vehiculos == null) {
 			this.vehiculos = new LinkedList<Vehiculo>();
 		}
+		vehiculo.setUsuario(this);
 		this.vehiculos.add(vehiculo);
 	}
 
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+
+
+
+	
+	
 //    private List<Factura> facturas;
 
 }

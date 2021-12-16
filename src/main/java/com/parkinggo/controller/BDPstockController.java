@@ -88,15 +88,15 @@ public class BDPstockController {
 			Factura factura = new Factura("25:25:12", "0102365458", 12.54, 12.52, 0.00);
 
 			List<Puerta> puertas = new LinkedList<Puerta>();
-			Puerta puerta1= new Puerta(false, 1, "X2S3V2316");
-			Puerta puerta2= new Puerta(false, 2, "Y2S5A2318");
-			Puerta puerta3= new Puerta(false, 3, "Z2S7F2319");
-			Parqueadero parqueadero= new Parqueadero("P1", 1, 15, 6);
+			Puerta puerta1= new Puerta(false, 1, "X2S3V2316","Entrada");
+			Puerta puerta2= new Puerta(false, 2, "Y2S5A2318","Salida");
+			Puerta puerta3= new Puerta(false, 3, "Z2S7F2319","Mixto");
+			Parqueadero parqueadero= new Parqueadero("P1", 1, "Parking Maria Auxiliadora","Parqueadero disponible todos los días sin interrupciones",15, 6);
 
 
 			List<Vehiculo> vehiculos = new LinkedList<Vehiculo>();
 			Vehiculo vehiculo = new Vehiculo("PXR-0248", "VW", "auto 2002","ninguna");
-			Usuario usuario = new Usuario("Christian Manuel", "Quinde Tenemaza", "0105783187", "0982651393");
+			Usuario usuario = new Usuario("Christian","Manuel", "Quinde","Tenemaza", "0105783187", "0982651393");
 			vehiculo.setUsuario(usuario);
 			vehiculos.add(vehiculo);
 			usuario.addVehiculo(vehiculo);

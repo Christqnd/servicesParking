@@ -39,7 +39,7 @@ public class RestPuertaController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void eliminarPuerta(@PathVariable("id") Integer id) {
+	public void eliminarPuerta(@PathVariable("id") Long id) {
 		repo.deleteById(id);
 	}
 }

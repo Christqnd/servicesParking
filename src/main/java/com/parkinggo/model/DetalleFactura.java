@@ -40,12 +40,12 @@ public class DetalleFactura {
 	@Column(name = "tiempo", length = 100)
 	private String tiempo;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "factura_id", nullable = false, updatable = false)
 	@JsonIgnore	private Factura factura;
 
-	@OneToOne 
-	@JoinColumn(name = "vehiculo_id")
+	@OneToOne(optional = true)
+	@JoinColumn(name = "vehiculo_id", nullable = true, updatable = true)
 	 private Vehiculo vehiculo;
 
 	public DetalleFactura(Date fechaHoraEntrada, Date fechaHoraSalida, String tiempo) {

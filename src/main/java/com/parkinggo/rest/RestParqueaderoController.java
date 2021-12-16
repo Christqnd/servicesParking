@@ -25,7 +25,7 @@ public class RestParqueaderoController {
 	private IParqueaderoRepository repo;
 
 	@GetMapping
-	public List<Parqueadero> listarParqueadero() {
+	public List<Parqueadero> listarParqueaderos() {
 		return repo.findAll();
 	}
 
@@ -40,7 +40,7 @@ public class RestParqueaderoController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void eliminarParqueadero(@PathVariable("id") Integer id) {
+	public void eliminarParqueadero(@PathVariable("id") Long id) {
 		repo.deleteById(id);
 	}
 }

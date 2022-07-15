@@ -111,6 +111,12 @@ public class Puerta {
 	}
 
 	
+	public Long getIdParqueadero() {
+		return parqueadero.getIdParqueadero();
+	}
 
+	public void setIdParqueadero(Long idParqueadero) {
+		this.parqueadero.setIdParqueadero(idParqueadero);
+	}
 
 }

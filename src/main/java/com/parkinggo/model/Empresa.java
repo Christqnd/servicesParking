@@ -2,6 +2,8 @@ package com.parkinggo.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,36 +20,33 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "empresa")
-public class Empresa implements Serializable{
+public class Empresa implements Serializable {
 
-	
 	@Id
-	@Column(name="ID")
+	@Column(name = "id_empresa")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long idEmpresa;
+
 	@Column(name = "codigo", length = 100)
 	private String codigo;
-	
-	@Column(name ="nombre", length=100)
+
+	@Column(name = "nombre", length = 100)
 	private String nombre;
-	
-	@Column(name ="descripcion", length=500)
+
+	@Column(name = "descripcion", length = 500)
 	private String descripcion;
 
-
 	@Column(name = "propietario", length = 500)
-	private String propietario;	
+	private String propietario;
 
-	
 	@Column(name = "estado", length = 1)
 	private String estado;
-	
-	@Column(name = "fechacreacion")
-	private LocalDateTime fechaCreacion;
 
-    @OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Parqueadero> parqueaderos;
+	@Column(name = "fechacreacion")
+	private Date fechaCreacion;
+
+	@OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Parqueadero> parqueaderos;
 
 	public Empresa(String codigo, String nombre, String descripcion, String propietario, String estado,
 			LocalDateTime fechaCreacion, List<Parqueadero> parqueaderos) {
@@ -57,19 +56,31 @@ public class Empresa implements Serializable{
 		this.descripcion = descripcion;
 		this.propietario = propietario;
 		this.estado = "A";
-		this.fechaCreacion = LocalDateTime.now();;
+		this.fechaCreacion = new Date();
 		this.parqueaderos = new LinkedList<Parqueadero>();
 	}
+
+	public Empresa(String codigo, String nombre, String descripcion, String propietario, String estado) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.propietario = propietario;
+		this.estado = "A";
+		this.fechaCreacion = new Date();
+		this.parqueaderos = new LinkedList<Parqueadero>();
+	}
+
 	public Empresa() {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 	public String getCodigo() {
@@ -112,11 +123,11 @@ public class Empresa implements Serializable{
 		this.estado = estado;
 	}
 
-	public LocalDateTime getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(LocalDateTime fechaCreacion) {
+	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -125,10 +136,10 @@ public class Empresa implements Serializable{
 	}
 
 	public void setParqueaderos(List<Parqueadero> parqueaderos) {
+		for(Parqueadero p: parqueaderos) {
+			p.setEmpresa(this);
+		}
 		this.parqueaderos = parqueaderos;
 	}
-	
-	
-	
-	
+
 }

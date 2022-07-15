@@ -23,15 +23,16 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "Parqueadero")
 public class Parqueadero {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id_parqueadero")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idParqueadero;
 
 	@Column(name = "codigo", length = 100)
 	private String codigo;
@@ -49,7 +50,7 @@ public class Parqueadero {
 	private String estado;
 	
 	@Column(name = "fechacreacion")
-	private LocalDateTime fechaCreacion;
+	private Date fechaCreacion;
 
 	@Column(name = "capacidad", length = 100)
 	private int capacidad;
@@ -65,6 +66,8 @@ public class Parqueadero {
 	
 
     @OneToMany(mappedBy = "parqueadero",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonIgnore(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Puerta> puertas;
 
     
@@ -77,7 +80,7 @@ public class Parqueadero {
 		this.capacidad = capacidad;
 		this.ocupados = ocupados;
 		this.estado="A";
-		this.fechaCreacion= LocalDateTime.now();
+		this.fechaCreacion= new Date();
 		this.puertas = new LinkedList<Puerta>();
 	}
 
@@ -87,12 +90,12 @@ public class Parqueadero {
 	}
 
 
-	public Long getId() {
-		return id;
+	public Long getIdParqueadero() {
+		return idParqueadero;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdParqueadero(Long idParqueadero) {
+		this.idParqueadero = idParqueadero;
 	}
 
 	public String getCodigo() {
@@ -153,6 +156,9 @@ public class Parqueadero {
 	}
 
 	public void setPuertas(List<Puerta> puertas) {
+		for(Puerta p: puertas) {
+			p.setParqueadero(this);
+		}
 		this.puertas = puertas;
 	}
 
@@ -167,14 +173,32 @@ public class Parqueadero {
 	}
 
 
-	public LocalDateTime getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 
 
-	public void setFechaCreacion(LocalDateTime fechaCreacion) {
+	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 	
+	public Long getIdEmpresa() {
+		return empresa.getIdEmpresa();
+	}
+	
+	public void setIdEmpresa(Long idEmpresa) {
+		this.empresa.setIdEmpresa(idEmpresa);
+	}
 
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+	
+	
 }

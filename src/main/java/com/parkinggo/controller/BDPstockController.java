@@ -1,6 +1,7 @@
 package com.parkinggo.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.parkinggo.EvalbdpApplication;
 import com.parkinggo.model.DetalleFactura;
+import com.parkinggo.model.Empresa;
 import com.parkinggo.model.Factura;
 import com.parkinggo.model.Parqueadero;
 import com.parkinggo.model.Puerta;
 import com.parkinggo.model.Usuario;
 import com.parkinggo.model.Vehiculo;
 import com.parkinggo.repository.IDetalleFacturaRepository;
+import com.parkinggo.repository.IEmpresaRepository;
 import com.parkinggo.repository.IFacturaRepository;
 import com.parkinggo.repository.IParqueaderoRepository;
 import com.parkinggo.repository.IPuertaRepository;
@@ -51,6 +54,10 @@ public class BDPstockController {
 	
 	@Autowired
 	private IPuertaRepository repopt;
+
+	
+	@Autowired
+	private IEmpresaRepository repoem;
 
 	
 	@GetMapping("/start")
@@ -91,6 +98,9 @@ public class BDPstockController {
 			Puerta puerta1= new Puerta(false, 1, "X2S3V2316","Entrada");
 			Puerta puerta2= new Puerta(false, 2, "Y2S5A2318","Salida");
 			Puerta puerta3= new Puerta(false, 3, "Z2S7F2319","Mixto");
+			
+			
+			Empresa empresa= new Empresa("C1", "empresa1", "empresa 1", "Juan Perez", "A");
 			Parqueadero parqueadero= new Parqueadero("P1", 1, "Parking Maria Auxiliadora","Parqueadero disponible todos los días sin interrupciones",15, 6);
 
 
@@ -135,10 +145,20 @@ public class BDPstockController {
 			puertas.add(puerta3);
 						
 			parqueadero.setPuertas(puertas);
+			parqueadero.setEmpresa(empresa);
 			
-			repopq.saveAndFlush(parqueadero);
-			
+//			repopq.saveAndFlush(parqueadero);
 
+			
+			List<Parqueadero> parqueaderos = new LinkedList<Parqueadero>();
+
+			parqueaderos.add(parqueadero);
+			empresa.setParqueaderos(parqueaderos);
+			
+			repoem.saveAndFlush(empresa);
+
+			
+			
 		} catch (Exception e) {
 			LoggerFactory.getLogger(EvalbdpApplication.class).error("############# Exception catch : "+ e.getMessage());
 			

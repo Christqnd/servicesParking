@@ -158,12 +158,6 @@ public class Usuario implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-
-
-
-
-	
 	
 //    private List<Factura> facturas;
 
